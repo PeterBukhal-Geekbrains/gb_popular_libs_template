@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="ru.gb.gb_popular_libs">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:name=".PopularLibraries"
         android:allowBackup="false"

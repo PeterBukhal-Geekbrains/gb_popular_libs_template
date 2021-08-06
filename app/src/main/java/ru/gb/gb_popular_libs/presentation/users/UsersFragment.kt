@@ -2,6 +2,7 @@ package ru.gb.gb_popular_libs.presentation.users
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import moxy.MvpAppCompatFragment
@@ -9,10 +10,11 @@ import moxy.ktx.moxyPresenter
 import ru.gb.gb_popular_libs.PopularLibraries.Navigation.router
 import ru.gb.gb_popular_libs.R.layout.view_users
 import ru.gb.gb_popular_libs.arguments
-import ru.gb.gb_popular_libs.data.user.GitHubUser
 import ru.gb.gb_popular_libs.data.user.GitHubUserRepositoryFactory
 import ru.gb.gb_popular_libs.databinding.ViewUsersBinding
+import ru.gb.gb_popular_libs.presentation.GitHubUserViewModel
 import ru.gb.gb_popular_libs.presentation.users.adapter.UsersAdapter
+import ru.gb.gb_popular_libs.scheduler.SchedulersFactory
 
 class UsersFragment: MvpAppCompatFragment(view_users), UsersView, UsersAdapter.Delegate {
 
@@ -27,7 +29,8 @@ class UsersFragment: MvpAppCompatFragment(view_users), UsersView, UsersAdapter.D
     private val presenter: UsersPresenter by moxyPresenter {
         UsersPresenter(
             userRepository = GitHubUserRepositoryFactory.create(),
-            router = router
+            router = router,
+            schedulers = SchedulersFactory.create()
         )
     }
 
@@ -40,11 +43,15 @@ class UsersFragment: MvpAppCompatFragment(view_users), UsersView, UsersAdapter.D
         viewBinding.users.adapter = usersAdapter
     }
 
-    override fun showUsers(users: List<GitHubUser>) {
+    override fun showUsers(users: List<GitHubUserViewModel>) {
         usersAdapter.submitList(users)
     }
 
-    override fun onUserPicked(user: GitHubUser) =
+    override fun showError(error: Throwable) {
+        Toast.makeText(requireContext(), error.message, Toast.LENGTH_LONG).show()
+    }
+
+    override fun onUserPicked(user: GitHubUserViewModel) =
         presenter.displayUser(user)
 
 }

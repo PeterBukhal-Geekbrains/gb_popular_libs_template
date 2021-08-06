@@ -1,16 +1,16 @@
 package ru.gb.gb_popular_libs.presentation.user
 
-import moxy.MvpView
 import moxy.viewstate.strategy.alias.SingleState
-import ru.gb.gb_popular_libs.data.user.GitHubUser
+import ru.gb.gb_popular_libs.presentation.GitHubUserViewModel
+import ru.gb.gb_popular_libs.presentation.ScreenView
 
-interface UserView : MvpView {
+interface UserView : ScreenView {
 
     /**
      * Показывает информацию о пользователе.
      * @param user пользователь
      */
     @SingleState
-    fun showUser(user: GitHubUser)
+    fun showUser(user: GitHubUserViewModel)
 
 }

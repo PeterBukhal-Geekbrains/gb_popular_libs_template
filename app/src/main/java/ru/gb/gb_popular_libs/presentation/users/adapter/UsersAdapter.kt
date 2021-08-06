@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import ru.gb.gb_popular_libs.R.layout.view_user
-import ru.gb.gb_popular_libs.data.user.GitHubUser
+import ru.gb.gb_popular_libs.presentation.GitHubUserViewModel
 
-class UsersAdapter(private val delegate: Delegate?): ListAdapter<GitHubUser, UserViewHolder>(UserDiff) {
+class UsersAdapter(private val delegate: Delegate?): ListAdapter<GitHubUserViewModel, UserViewHolder>(UserDiff) {
 
     interface Delegate {
 
@@ -15,7 +15,7 @@ class UsersAdapter(private val delegate: Delegate?): ListAdapter<GitHubUser, Use
          * пользователя из списка.
          * @param user пользователь
          */
-        fun onUserPicked(user: GitHubUser)
+        fun onUserPicked(user: GitHubUserViewModel)
 
     }
 

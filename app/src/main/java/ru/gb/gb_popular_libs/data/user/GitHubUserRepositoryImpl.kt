@@ -1,5 +1,8 @@
 package ru.gb.gb_popular_libs.data.user
 
+import io.reactivex.Maybe
+import io.reactivex.Single
+
 class GitHubUserRepositoryImpl : GitHubUserRepository {
 
     private val users = listOf(
@@ -10,10 +13,13 @@ class GitHubUserRepositoryImpl : GitHubUserRepository {
         GitHubUser("login5"),
     )
 
-    override fun getUsers() =
-        users
+    override fun getUsers(): Single<List<GitHubUser>> =
+        Single.just(users)
+            .map { users -> users.map { it.copy(login = it.login.lowercase()) } }
 
-    override fun getUserByLogin(userId: String): GitHubUser? =
-        users.firstOrNull { user -> user.login == userId }
+    override fun getUserByLogin(userId: String): Maybe<GitHubUser> =
+        users.firstOrNull { user -> user.login.contentEquals(userId, ignoreCase = true) }
+            ?.let { user -> Maybe.just(user) }
+            ?: Maybe.empty()
 
 }

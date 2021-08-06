@@ -1,14 +1,15 @@
 package ru.gb.gb_popular_libs.presentation.user
 
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.gb.gb_popular_libs.R.layout.view_user
 import ru.gb.gb_popular_libs.arguments
-import ru.gb.gb_popular_libs.data.user.GitHubUser
 import ru.gb.gb_popular_libs.data.user.GitHubUserRepositoryFactory
 import ru.gb.gb_popular_libs.databinding.ViewUserBinding
+import ru.gb.gb_popular_libs.presentation.GitHubUserViewModel
 
 class UserFragment: MvpAppCompatFragment(view_user), UserView {
 
@@ -36,8 +37,12 @@ class UserFragment: MvpAppCompatFragment(view_user), UserView {
 
     private val viewBinding: ViewUserBinding by viewBinding()
 
-    override fun showUser(user: GitHubUser) {
+    override fun showUser(user: GitHubUserViewModel) {
         viewBinding.userLogin.text = user.login
+    }
+
+    override fun showError(error: Throwable) {
+        Toast.makeText(requireContext(), error.message, Toast.LENGTH_LONG).show()
     }
 
 }
