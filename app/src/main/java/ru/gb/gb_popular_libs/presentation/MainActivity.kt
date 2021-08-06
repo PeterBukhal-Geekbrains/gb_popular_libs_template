@@ -11,7 +11,7 @@ import ru.gb.gb_popular_libs.PopularLibraries.Navigation.navigatorHolder
 import ru.gb.gb_popular_libs.PopularLibraries.Navigation.router
 import ru.gb.gb_popular_libs.data.network.NetworkState
 import ru.gb.gb_popular_libs.data.network.NetworkStateObservable
-import ru.gb.gb_popular_libs.presentation.users.UsersScreen
+import ru.gb.gb_popular_libs.presentation.converter.ConverterScreen
 import java.util.concurrent.TimeUnit
 
 class MainActivity : MvpAppCompatActivity() {
@@ -28,7 +28,7 @@ class MainActivity : MvpAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        savedInstanceState ?: router.newRootScreen(UsersScreen)
+        savedInstanceState ?: router.newRootScreen(ConverterScreen)
 
         val connect =
             NetworkStateObservable(this)
