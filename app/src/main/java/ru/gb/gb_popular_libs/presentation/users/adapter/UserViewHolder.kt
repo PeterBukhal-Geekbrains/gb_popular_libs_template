@@ -7,6 +7,7 @@ import ru.gb.gb_popular_libs.click
 import ru.gb.gb_popular_libs.databinding.ViewUserBinding
 import ru.gb.gb_popular_libs.presentation.GitHubUserViewModel
 import ru.gb.gb_popular_libs.presentation.users.adapter.UsersAdapter.Delegate
+import ru.gb.gb_popular_libs.setStartDrawableCircleImageFromUri
 
 class UserViewHolder(view: View): ViewHolder(view) {
 
@@ -14,6 +15,7 @@ class UserViewHolder(view: View): ViewHolder(view) {
 
     fun bind(user: GitHubUserViewModel, delegate: Delegate?) {
         with(viewBinding) {
+            userLogin.setStartDrawableCircleImageFromUri(user.avatar)
             userLogin.text = user.login
 
             root.click { delegate?.onUserPicked(user) }

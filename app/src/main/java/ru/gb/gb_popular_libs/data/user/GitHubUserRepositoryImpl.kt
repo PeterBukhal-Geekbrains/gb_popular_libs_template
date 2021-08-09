@@ -1,25 +1,35 @@
 package ru.gb.gb_popular_libs.data.user
 
 import io.reactivex.Maybe
+import io.reactivex.Observable
 import io.reactivex.Single
+import ru.gb.gb_popular_libs.data.user.datasource.CacheUserDataSource
+import ru.gb.gb_popular_libs.data.user.datasource.UserDataSource
 
-class GitHubUserRepositoryImpl : GitHubUserRepository {
+class GitHubUserRepositoryImpl(
+    private val cloud: UserDataSource,
+    private val cache: CacheUserDataSource
+) : GitHubUserRepository {
 
-    private val users = listOf(
-        GitHubUser("login1"),
-        GitHubUser("login2"),
-        GitHubUser("login3"),
-        GitHubUser("login4"),
-        GitHubUser("login5"),
-    )
+    override fun getUsers(): Observable<List<GitHubUser>> =
+        Observable.merge(
+            cache.getUsers().toObservable(),
+            cloud.getUsers().flatMap(cache::retain).toObservable()
+        )
 
-    override fun getUsers(): Single<List<GitHubUser>> =
-        Single.just(users)
-            .map { users -> users.map { it.copy(login = it.login.lowercase()) } }
+//        cache.getUsers()
+//            .flatMap { users ->
+//                if (users.isEmpty()) {
+//                    cloud.getUsers()
+//                        .flatMap(cache::retain)
+//                } else {
+//                    Single.just(users)
+//                }
+//            }
+            //.map { users -> users.map { it.copy(login = it.login.lowercase()) } }
 
     override fun getUserByLogin(userId: String): Maybe<GitHubUser> =
-        users.firstOrNull { user -> user.login.contentEquals(userId, ignoreCase = true) }
-            ?.let { user -> Maybe.just(user) }
-            ?: Maybe.empty()
+        cache.getUserByLogin(userId)
+            .switchIfEmpty(cloud.getUserByLogin(userId))
 
 }

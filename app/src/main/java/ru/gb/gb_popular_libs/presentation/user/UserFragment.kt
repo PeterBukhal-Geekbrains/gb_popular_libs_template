@@ -10,10 +10,12 @@ import ru.gb.gb_popular_libs.arguments
 import ru.gb.gb_popular_libs.data.user.GitHubUserRepositoryFactory
 import ru.gb.gb_popular_libs.databinding.ViewUserBinding
 import ru.gb.gb_popular_libs.presentation.GitHubUserViewModel
+import ru.gb.gb_popular_libs.scheduler.SchedulersFactory
+import ru.gb.gb_popular_libs.setStartDrawableCircleImageFromUri
 
 class UserFragment: MvpAppCompatFragment(view_user), UserView {
 
-    companion object {
+    companion object Factory {
 
         private const val ARG_USER_LOGIN = "arg_user_login"
 
@@ -31,13 +33,15 @@ class UserFragment: MvpAppCompatFragment(view_user), UserView {
     private val presenter: UserPresenter by moxyPresenter {
         UserPresenter(
             userLogin = userLogin,
-            userRepository = GitHubUserRepositoryFactory.create()
+            userRepository = GitHubUserRepositoryFactory.create(),
+            schedulers = SchedulersFactory.create()
         )
     }
 
     private val viewBinding: ViewUserBinding by viewBinding()
 
     override fun showUser(user: GitHubUserViewModel) {
+        viewBinding.userLogin.setStartDrawableCircleImageFromUri(user.avatar)
         viewBinding.userLogin.text = user.login
     }
 
