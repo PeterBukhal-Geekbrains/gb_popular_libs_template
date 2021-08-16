@@ -5,6 +5,7 @@ import com.github.terrakok.cicerone.Router
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import moxy.MvpPresenter
+import ru.gb.gb_popular_libs.data.user.GitHubUser
 import ru.gb.gb_popular_libs.data.user.GitHubUserRepository
 import ru.gb.gb_popular_libs.presentation.GitHubUserViewModel
 import ru.gb.gb_popular_libs.presentation.GitHubUserViewModel.Mapper

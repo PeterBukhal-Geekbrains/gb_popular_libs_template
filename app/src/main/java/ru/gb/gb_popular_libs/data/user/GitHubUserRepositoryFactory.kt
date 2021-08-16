@@ -9,10 +9,13 @@ import ru.gb.gb_popular_libs.data.user.datasource.UserDataSourceFactory
  */
 object GitHubUserRepositoryFactory {
 
-    fun create(): GitHubUserRepository =
+    private val repository: GitHubUserRepository by lazy {
         GitHubUserRepositoryImpl(
             UserDataSourceFactory.create(),
             CacheUserDataSourceFactory.create()
         )
+    }
+
+    fun create(): GitHubUserRepository = repository
 
 }

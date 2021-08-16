@@ -5,6 +5,7 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import ru.gb.gb_popular_libs.data.user.datasource.CacheUserDataSource
 import ru.gb.gb_popular_libs.data.user.datasource.UserDataSource
+import java.util.concurrent.TimeUnit
 
 class GitHubUserRepositoryImpl(
     private val cloud: UserDataSource,
@@ -30,6 +31,8 @@ class GitHubUserRepositoryImpl(
 
     override fun getUserByLogin(userId: String): Maybe<GitHubUser> =
         cache.getUserByLogin(userId)
-            .switchIfEmpty(cloud.getUserByLogin(userId))
+            .onErrorResumeNext(
+                cloud.getUserByLogin(userId)
+            )
 
 }
