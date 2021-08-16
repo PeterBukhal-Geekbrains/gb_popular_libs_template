@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import androidx.room.Update
 import io.reactivex.Completable
-import io.reactivex.Maybe
+import io.reactivex.Observable
 import io.reactivex.Single
 import ru.gb.gb_popular_libs.data.user.GitHubUser
 
@@ -14,7 +14,7 @@ import ru.gb.gb_popular_libs.data.user.GitHubUser
 interface GitHubUserDao {
 
     @Query("SELECT * FROM github_user")
-    fun fetchUsers(): Single<List<GitHubUser>>
+    fun fetchUsers(): Observable<List<GitHubUser>>
 
     @Query("SELECT * FROM github_user WHERE login LIKE :login LIMIT 1")
     fun fetchUserByLogin(login: String): Single<GitHubUser>

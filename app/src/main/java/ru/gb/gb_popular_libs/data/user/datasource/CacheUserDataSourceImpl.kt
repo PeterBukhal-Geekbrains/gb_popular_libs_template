@@ -1,13 +1,18 @@
 package ru.gb.gb_popular_libs.data.user.datasource
 
 import io.reactivex.Maybe
+import io.reactivex.Observable
 import io.reactivex.Single
+import ru.gb.gb_popular_libs.data.di.InMemory
 import ru.gb.gb_popular_libs.data.storage.GitHubStorage
 import ru.gb.gb_popular_libs.data.user.GitHubUser
+import javax.inject.Inject
 
-class CacheUserDataSourceImpl(private val gitHubStorage: GitHubStorage) : CacheUserDataSource {
+class CacheUserDataSourceImpl @Inject constructor(
+    @InMemory private val gitHubStorage: GitHubStorage
+) : CacheUserDataSource {
 
-    override fun getUsers(): Single<List<GitHubUser>> =
+    override fun getUsers(): Observable<List<GitHubUser>> =
         gitHubStorage
             .gitHubUserDao()
             .fetchUsers()
@@ -22,13 +27,12 @@ class CacheUserDataSourceImpl(private val gitHubStorage: GitHubStorage) : CacheU
         gitHubStorage
             .gitHubUserDao()
             .retain(users)
-            .andThen(getUsers())
+            .andThen(getUsers().firstOrError())
 
     override fun retain(user: GitHubUser): Single<GitHubUser> =
         gitHubStorage
             .gitHubUserDao()
             .retain(user)
-            .andThen(getUserByLogin(user.id))
-            .toSingle()
+            .andThen(Single.just(user))
 
 }

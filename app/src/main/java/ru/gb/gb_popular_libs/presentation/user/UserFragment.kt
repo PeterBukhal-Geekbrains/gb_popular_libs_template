@@ -3,17 +3,18 @@ package ru.gb.gb_popular_libs.presentation.user
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
-import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.gb.gb_popular_libs.R.layout.view_user
 import ru.gb.gb_popular_libs.arguments
-import ru.gb.gb_popular_libs.data.user.GitHubUserRepositoryFactory
+import ru.gb.gb_popular_libs.data.user.GitHubUserRepository
 import ru.gb.gb_popular_libs.databinding.ViewUserBinding
 import ru.gb.gb_popular_libs.presentation.GitHubUserViewModel
-import ru.gb.gb_popular_libs.scheduler.SchedulersFactory
+import ru.gb.gb_popular_libs.presentation.abs.AbsFragment
+import ru.gb.gb_popular_libs.scheduler.Schedulers
 import ru.gb.gb_popular_libs.setStartDrawableCircleImageFromUri
+import javax.inject.Inject
 
-class UserFragment: MvpAppCompatFragment(view_user), UserView {
+class UserFragment: AbsFragment(view_user), UserView {
 
     companion object Factory {
 
@@ -29,12 +30,18 @@ class UserFragment: MvpAppCompatFragment(view_user), UserView {
         arguments?.getString(ARG_USER_LOGIN).orEmpty()
     }
 
+    @Inject
+    lateinit var schedulers: Schedulers
+
+    @Inject
+    lateinit var gitHubUserRepository: GitHubUserRepository
+
     @Suppress("unused")
     private val presenter: UserPresenter by moxyPresenter {
         UserPresenter(
             userLogin = userLogin,
-            userRepository = GitHubUserRepositoryFactory.create(),
-            schedulers = SchedulersFactory.create()
+            userRepository = gitHubUserRepository,
+            schedulers = schedulers
         )
     }
 

@@ -1,33 +1,29 @@
 package ru.gb.gb_popular_libs
 
-import android.app.Application
-import android.content.Context
 import com.github.terrakok.cicerone.Cicerone
-import com.github.terrakok.cicerone.Router
+import dagger.android.AndroidInjector
+import dagger.android.DaggerApplication
 import io.reactivex.plugins.RxJavaPlugins
+import ru.gb.gb_popular_libs.data.di.DaggerApplicationComponent
+import ru.gb.gb_popular_libs.scheduler.DefaultSchedulers
 
-class PopularLibraries : Application() {
+class PopularLibraries : DaggerApplication() {
 
-    object ContextHolder {
+    override fun applicationInjector(): AndroidInjector<PopularLibraries> =
+        DaggerApplicationComponent
+            .builder()
+            .withContext(applicationContext)
+            .apply {
+                val cicerone = Cicerone.create()
 
-        lateinit var context: Context
-
-    }
-
-    companion object Navigation {
-
-        private val cicerone : Cicerone<Router> by lazy {
-            Cicerone.create()
-        }
-
-        val navigatorHolder = cicerone.getNavigatorHolder()
-        val router = cicerone.router
-
-    }
+                withNavigatorHolder(cicerone.getNavigatorHolder())
+                withRouter(cicerone.router)
+                withSchedulers(DefaultSchedulers())
+            }
+            .build()
 
     override fun onCreate() {
         super.onCreate()
-        ContextHolder.context = applicationContext
         RxJavaPlugins.setErrorHandler {  }
     }
 
