@@ -1,6 +1,6 @@
 package ru.gb.gb_popular_libs.presentation
 
-import ru.gb.gb_popular_libs.data.user.GitHubUser
+import ru.gb.gb_popular_libs.data.model.GitHubUser
 
 data class GitHubUserViewModel(
     val login: String,

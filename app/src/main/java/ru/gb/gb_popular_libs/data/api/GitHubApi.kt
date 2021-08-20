@@ -4,7 +4,7 @@ import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
-import ru.gb.gb_popular_libs.data.user.GitHubUser
+import ru.gb.gb_popular_libs.data.model.GitHubUser
 
 interface GitHubApi {
 

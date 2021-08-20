@@ -1,9 +1,8 @@
 package ru.gb.gb_popular_libs.data.di.modules
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
+import dagger.Reusable
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -25,7 +24,7 @@ class GitHubApiModule {
     @Provides
     fun provideBaseUrlTest(): String = "https://api-test.github.com"
 
-    @Singleton
+    @Reusable
     @Provides
     fun provideGitHubApi(@Named("github_api") baseUrl: String): GitHubApi =
         Retrofit.Builder()
@@ -39,12 +38,8 @@ class GitHubApiModule {
                     .build()
             )
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(GitHubApi::class.java)
-
-    private val gson: Gson =
-        GsonBuilder()
-            .create()
 
 }

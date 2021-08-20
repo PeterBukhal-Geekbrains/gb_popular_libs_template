@@ -8,7 +8,7 @@ import androidx.room.Update
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
-import ru.gb.gb_popular_libs.data.user.GitHubUser
+import ru.gb.gb_popular_libs.data.model.GitHubUser
 
 @Dao
 interface GitHubUserDao {

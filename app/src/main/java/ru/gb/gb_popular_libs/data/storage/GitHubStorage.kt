@@ -3,7 +3,7 @@ package ru.gb.gb_popular_libs.data.storage
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import ru.gb.gb_popular_libs.data.storage.user.GitHubUserDao
-import ru.gb.gb_popular_libs.data.user.GitHubUser
+import ru.gb.gb_popular_libs.data.model.GitHubUser
 
 @Database(exportSchema = false, entities = [GitHubUser::class], version = 3)
 abstract class GitHubStorage : RoomDatabase() {

@@ -1,4 +1,4 @@
-package ru.gb.gb_popular_libs.data.user
+package ru.gb.gb_popular_libs.data.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

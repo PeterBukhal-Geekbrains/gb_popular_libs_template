@@ -1,20 +1,23 @@
 package ru.gb.gb_popular_libs.presentation.user
 
+import android.content.Context
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
+import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import ru.gb.gb_popular_libs.PopularLibraries
 import ru.gb.gb_popular_libs.R.layout.view_user
 import ru.gb.gb_popular_libs.arguments
+import ru.gb.gb_popular_libs.data.di.GitHubUserComponent
 import ru.gb.gb_popular_libs.data.user.GitHubUserRepository
 import ru.gb.gb_popular_libs.databinding.ViewUserBinding
 import ru.gb.gb_popular_libs.presentation.GitHubUserViewModel
-import ru.gb.gb_popular_libs.presentation.abs.AbsFragment
 import ru.gb.gb_popular_libs.scheduler.Schedulers
 import ru.gb.gb_popular_libs.setStartDrawableCircleImageFromUri
 import javax.inject.Inject
 
-class UserFragment: AbsFragment(view_user), UserView {
+class UserFragment: MvpAppCompatFragment(view_user), UserView {
 
     companion object Factory {
 
@@ -36,6 +39,19 @@ class UserFragment: AbsFragment(view_user), UserView {
     @Inject
     lateinit var gitHubUserRepository: GitHubUserRepository
 
+    private var gitHubUserComponent: GitHubUserComponent? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        gitHubUserComponent =
+            (requireActivity().application as? PopularLibraries)
+                ?.gitHubApplicationComponent
+                ?.gitHubUserComponent()
+                ?.build()
+                ?.also { it.inject(this) }
+    }
+
     @Suppress("unused")
     private val presenter: UserPresenter by moxyPresenter {
         UserPresenter(
@@ -54,6 +70,11 @@ class UserFragment: AbsFragment(view_user), UserView {
 
     override fun showError(error: Throwable) {
         Toast.makeText(requireContext(), error.message, Toast.LENGTH_LONG).show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        gitHubUserComponent = null
     }
 
 }

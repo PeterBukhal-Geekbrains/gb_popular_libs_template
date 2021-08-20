@@ -1,19 +1,17 @@
 package ru.gb.gb_popular_libs.presentation.users
 
-import android.annotation.SuppressLint
 import com.github.terrakok.cicerone.Router
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.plusAssign
 import moxy.MvpPresenter
-import ru.gb.gb_popular_libs.data.user.GitHubUser
-import ru.gb.gb_popular_libs.data.user.GitHubUserRepository
+import ru.gb.gb_popular_libs.data.users.GitHubUsersRepository
 import ru.gb.gb_popular_libs.presentation.GitHubUserViewModel
 import ru.gb.gb_popular_libs.presentation.GitHubUserViewModel.Mapper
 import ru.gb.gb_popular_libs.presentation.user.UserScreen
 import ru.gb.gb_popular_libs.scheduler.Schedulers
 
 class UsersPresenter(
-    private val userRepository: GitHubUserRepository,
+    private val userRepository: GitHubUsersRepository,
     private val router: Router,
     private val schedulers: Schedulers
 ): MvpPresenter<UsersView>() {

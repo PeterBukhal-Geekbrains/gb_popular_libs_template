@@ -8,15 +8,14 @@ import dagger.Component
 import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
 import ru.gb.gb_popular_libs.PopularLibraries
-import ru.gb.gb_popular_libs.data.di.modules.GitHubApiModule
-import ru.gb.gb_popular_libs.data.di.modules.GitHubStorageModule
-import ru.gb.gb_popular_libs.data.di.modules.GitHubUsersModule
+import ru.gb.gb_popular_libs.data.di.modules.GitHubApplicationModule
 import ru.gb.gb_popular_libs.scheduler.Schedulers
-import javax.inject.Singleton
 
-@Singleton
-@Component(modules = [AndroidInjectionModule::class, GitHubUsersModule::class, GitHubApiModule::class, GitHubStorageModule::class])
-interface ApplicationComponent : AndroidInjector<PopularLibraries> {
+@Component(modules = [AndroidInjectionModule::class, GitHubApplicationModule::class])
+interface GitHubApplicationComponent : AndroidInjector<PopularLibraries> {
+
+    fun gitHubUsersComponent(): GitHubUsersComponent.Builder
+    fun gitHubUserComponent(): GitHubUserComponent.Builder
 
     @Component.Builder
     interface Builder {
@@ -33,7 +32,7 @@ interface ApplicationComponent : AndroidInjector<PopularLibraries> {
         @BindsInstance
         fun withSchedulers(schedulers: Schedulers): Builder
 
-        fun build(): ApplicationComponent
+        fun build(): GitHubApplicationComponent
 
     }
 
