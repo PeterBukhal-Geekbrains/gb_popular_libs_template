@@ -1,7 +1,7 @@
 package ru.gb.gb_popular_libs.data.user
 
-import io.reactivex.Maybe
-import io.reactivex.Single
+import io.reactivex.rxjava3.core.Maybe
+import io.reactivex.rxjava3.core.Single
 
 interface GitHubUserRepository {
 

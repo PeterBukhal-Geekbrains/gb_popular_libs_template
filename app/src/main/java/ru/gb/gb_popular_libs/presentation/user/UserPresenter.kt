@@ -1,10 +1,9 @@
 package ru.gb.gb_popular_libs.presentation.user
 
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.plusAssign
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.plusAssign
 import moxy.MvpPresenter
 import ru.gb.gb_popular_libs.data.user.GitHubUserRepository
-import ru.gb.gb_popular_libs.presentation.GitHubUserViewModel
 import ru.gb.gb_popular_libs.presentation.GitHubUserViewModel.Mapper
 
 class UserPresenter(

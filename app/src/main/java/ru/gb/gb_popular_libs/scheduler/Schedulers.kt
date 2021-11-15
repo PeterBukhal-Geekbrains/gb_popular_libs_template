@@ -1,6 +1,6 @@
 package ru.gb.gb_popular_libs.scheduler
 
-import io.reactivex.Scheduler
+import io.reactivex.rxjava3.core.Scheduler
 
 interface Schedulers {
 

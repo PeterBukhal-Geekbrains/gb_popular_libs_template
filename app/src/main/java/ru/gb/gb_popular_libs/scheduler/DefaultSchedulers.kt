@@ -1,11 +1,11 @@
 package ru.gb.gb_popular_libs.scheduler
 
-import io.reactivex.Scheduler
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Scheduler
 
 class DefaultSchedulers : Schedulers {
 
-    override fun background(): Scheduler = io.reactivex.schedulers.Schedulers.newThread()
+    override fun background(): Scheduler = io.reactivex.rxjava3.schedulers.Schedulers.newThread()
 
     override fun main(): Scheduler = AndroidSchedulers.mainThread()
 }
