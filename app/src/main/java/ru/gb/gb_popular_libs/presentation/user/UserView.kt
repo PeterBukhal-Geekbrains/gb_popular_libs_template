@@ -8,9 +8,9 @@ interface UserView : ScreenView {
 
     /**
      * Показывает информацию о пользователе.
-     * @param user пользователь
+     * @param userModel пользователь
      */
     @SingleState
-    fun showUser(user: GitHubUserViewModel)
+    fun showUser(userModel: GitHubUserViewModel)
 
 }

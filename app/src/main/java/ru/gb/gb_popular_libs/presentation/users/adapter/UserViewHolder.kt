@@ -7,16 +7,20 @@ import ru.gb.gb_popular_libs.click
 import ru.gb.gb_popular_libs.databinding.ViewUserBinding
 import ru.gb.gb_popular_libs.presentation.GitHubUserViewModel
 import ru.gb.gb_popular_libs.presentation.users.adapter.UsersAdapter.Delegate
+import ru.gb.gb_popular_libs.setTextColorCompat
+import ru.gb.gb_popular_libs.setUserAvatar
 
 class UserViewHolder(view: View): ViewHolder(view) {
 
     private val viewBinding: ViewUserBinding by viewBinding()
 
-    fun bind(user: GitHubUserViewModel, delegate: Delegate?) {
+    fun bind(userModel: GitHubUserViewModel, delegate: Delegate?) {
         with(viewBinding) {
-            userLogin.text = user.login
+            user.setUserAvatar(userModel.avatar)
+            user.setTextColorCompat(userModel.nameColor)
+            user.text = userModel.name
 
-            root.click { delegate?.onUserPicked(user) }
+            root.click { delegate?.onUserPicked(userModel) }
         }
     }
 

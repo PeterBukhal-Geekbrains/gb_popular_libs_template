@@ -10,6 +10,8 @@ import ru.gb.gb_popular_libs.arguments
 import ru.gb.gb_popular_libs.data.user.GitHubUserRepositoryFactory
 import ru.gb.gb_popular_libs.databinding.ViewUserBinding
 import ru.gb.gb_popular_libs.presentation.GitHubUserViewModel
+import ru.gb.gb_popular_libs.setTextColorCompat
+import ru.gb.gb_popular_libs.setUserAvatar
 
 class UserFragment: MvpAppCompatFragment(view_user), UserView {
 
@@ -37,8 +39,12 @@ class UserFragment: MvpAppCompatFragment(view_user), UserView {
 
     private val viewBinding: ViewUserBinding by viewBinding()
 
-    override fun showUser(user: GitHubUserViewModel) {
-        viewBinding.userLogin.text = user.login
+    override fun showUser(userModel: GitHubUserViewModel) {
+        with(viewBinding) {
+            user.setUserAvatar(userModel.avatar)
+            user.setTextColorCompat(userModel.nameColor)
+            user.text = userModel.name
+        }
     }
 
     override fun showError(error: Throwable) {

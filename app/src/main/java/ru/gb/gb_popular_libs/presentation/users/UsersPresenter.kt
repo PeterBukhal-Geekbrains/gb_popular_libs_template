@@ -33,7 +33,7 @@ class UsersPresenter(
     }
 
     fun displayUser(user: GitHubUserViewModel) {
-        router.navigateTo(UserScreen(user.login))
+        router.navigateTo(UserScreen(user.name))
     }
 
     override fun onDestroy() {

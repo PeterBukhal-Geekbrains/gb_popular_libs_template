@@ -9,7 +9,7 @@ object UserDiff : DiffUtil.ItemCallback<GitHubUserViewModel>() {
     private val payload = Any()
 
     override fun areItemsTheSame(oldItem: GitHubUserViewModel, newItem: GitHubUserViewModel): Boolean {
-        return oldItem.login == newItem.login
+        return oldItem.name == newItem.name
     }
 
     @SuppressLint("DiffUtilEquals")
