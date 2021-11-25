@@ -1,6 +1,7 @@
 package ru.gb.gb_popular_libs.presentation.user
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -17,15 +18,19 @@ class UserPresenter(
 
     override fun onFirstViewAttach() {
         disposables +=
-            userRepository
-                .getUserByLogin(userLogin)
-                .map(Mapper::map)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(
-                    viewState::showUser,
-                    viewState::showError
-                )
+            Observable.merge(
+                userRepository
+                    .getUser(userLogin)
+                    .map(Mapper::map)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnNext(viewState::showUser),
+                userRepository
+                    .getUserRepositories(userLogin)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnNext(viewState::showRepositories)
+            )
+            .subscribeOn(Schedulers.io())
+            .subscribe({}, viewState::showError)
     }
 
     override fun onDestroy() {

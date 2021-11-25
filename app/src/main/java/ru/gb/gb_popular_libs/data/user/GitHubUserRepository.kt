@@ -1,12 +1,14 @@
 package ru.gb.gb_popular_libs.data.user
 
-import io.reactivex.rxjava3.core.Maybe
-import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.core.Observable
+import ru.gb.gb_popular_libs.data.repository.GitHubRepository
 
 interface GitHubUserRepository {
 
-    fun getUsers(): Single<List<GitHubUser>>
+    fun getUsers(): Observable<List<GitHubUser>>
 
-    fun getUserByLogin(userId: String): Maybe<GitHubUser>
+    fun getUser(userId: String): Observable<GitHubUser>
+
+    fun getUserRepositories(login: String): Observable<List<GitHubRepository>>
 
 }
