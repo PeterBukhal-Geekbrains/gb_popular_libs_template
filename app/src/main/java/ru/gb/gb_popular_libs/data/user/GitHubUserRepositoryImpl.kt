@@ -6,8 +6,10 @@ import ru.gb.gb_popular_libs.data.repository.datasource.GitHubRepositoryCacheDat
 import ru.gb.gb_popular_libs.data.repository.datasource.GitHubRepositoryDataSource
 import ru.gb.gb_popular_libs.data.user.datasource.GitHubUserCacheDataSource
 import ru.gb.gb_popular_libs.data.user.datasource.GitHubUserDataSource
+import javax.inject.Inject
 
-class GitHubUserRepositoryImpl(
+class GitHubUserRepositoryImpl
+@Inject constructor(
     private val gitHubUserDataSource: GitHubUserDataSource,
     private val gitHubUserCacheDataSource: GitHubUserCacheDataSource,
     private val gitHubRepositoryDataSource: GitHubRepositoryDataSource,

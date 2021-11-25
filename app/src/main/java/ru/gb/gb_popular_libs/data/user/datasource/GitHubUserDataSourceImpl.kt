@@ -5,8 +5,10 @@ import io.reactivex.rxjava3.core.Single
 import ru.gb.gb_popular_libs.data.api.GitHubApi
 import ru.gb.gb_popular_libs.data.user.GitHubUser
 import java.util.concurrent.TimeUnit.SECONDS
+import javax.inject.Inject
 
-class GitHubUserDataSourceImpl(
+class GitHubUserDataSourceImpl
+@Inject constructor(
     private val gitHubApi: GitHubApi
 ) : GitHubUserDataSource {
 

@@ -1,17 +1,17 @@
 package ru.gb.gb_popular_libs.presentation.user
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
-import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
 import ru.gb.gb_popular_libs.data.user.GitHubUserRepository
 import ru.gb.gb_popular_libs.presentation.GitHubUserViewModel.Mapper
+import ru.gb.gb_popular_libs.scheduler.Schedulers
 
 class UserPresenter(
     private val userLogin: String,
-    private val userRepository: GitHubUserRepository
+    private val userRepository: GitHubUserRepository,
+    private val schedulers: Schedulers
 ) : MvpPresenter<UserView>() {
 
     private val disposables = CompositeDisposable()
@@ -22,14 +22,14 @@ class UserPresenter(
                 userRepository
                     .getUser(userLogin)
                     .map(Mapper::map)
-                    .observeOn(AndroidSchedulers.mainThread())
+                    .observeOn(schedulers.main())
                     .doOnNext(viewState::showUser),
                 userRepository
                     .getUserRepositories(userLogin)
-                    .observeOn(AndroidSchedulers.mainThread())
+                    .observeOn(schedulers.main())
                     .doOnNext(viewState::showRepositories)
             )
-            .subscribeOn(Schedulers.io())
+            .subscribeOn(schedulers.background())
             .subscribe({}, viewState::showError)
     }
 

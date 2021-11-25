@@ -3,19 +3,20 @@ package ru.gb.gb_popular_libs.presentation.user
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
-import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.gb.gb_popular_libs.R.layout.view_user_details
 import ru.gb.gb_popular_libs.arguments
 import ru.gb.gb_popular_libs.data.repository.GitHubRepository
-import ru.gb.gb_popular_libs.data.user.GitHubUserRepositoryFactory
+import ru.gb.gb_popular_libs.data.user.GitHubUserRepository
 import ru.gb.gb_popular_libs.databinding.ViewUserDetailsBinding
 import ru.gb.gb_popular_libs.presentation.GitHubUserViewModel
+import ru.gb.gb_popular_libs.presentation.abs.AbsFragment
 import ru.gb.gb_popular_libs.presentation.user.adapter.GitHubRepositoryAdapter
 import ru.gb.gb_popular_libs.setTextColorCompat
 import ru.gb.gb_popular_libs.setUserAvatar
+import javax.inject.Inject
 
-class UserFragment: MvpAppCompatFragment(view_user_details), UserView {
+class UserFragment: AbsFragment(view_user_details), UserView {
 
     companion object {
 
@@ -31,11 +32,15 @@ class UserFragment: MvpAppCompatFragment(view_user_details), UserView {
         arguments?.getString(ARG_USER_LOGIN).orEmpty()
     }
 
+    @Inject
+    lateinit var gitHubUserRepository: GitHubUserRepository
+
     @Suppress("unused")
     private val presenter: UserPresenter by moxyPresenter {
         UserPresenter(
             userLogin = userLogin,
-            userRepository = GitHubUserRepositoryFactory.create()
+            userRepository = gitHubUserRepository,
+            schedulers = schedulers
         )
     }
 
