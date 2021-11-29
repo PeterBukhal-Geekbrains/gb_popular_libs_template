@@ -8,7 +8,6 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import moxy.ktx.moxyPresenter
 import ru.gb.gb_popular_libs.R.layout.view_users
 import ru.gb.gb_popular_libs.arguments
-import ru.gb.gb_popular_libs.data.user.GitHubUserRepository
 import ru.gb.gb_popular_libs.databinding.ViewUsersBinding
 import ru.gb.gb_popular_libs.presentation.GitHubUserViewModel
 import ru.gb.gb_popular_libs.presentation.abs.AbsFragment
@@ -26,20 +25,14 @@ class UsersFragment: AbsFragment(view_users), UsersView, UsersAdapter.Delegate {
     }
 
     @Inject
-    lateinit var gitHubUserRepository: GitHubUserRepository
+    lateinit var presenterFactory: UsersPresenterAssistedFactory
 
     private val presenter: UsersPresenter by moxyPresenter {
-        UsersPresenter(
-            userRepository = gitHubUserRepository,
-            router = router,
-            schedulers = schedulers
-        )
+        presenterFactory.create()
     }
 
     private val viewBinding: ViewUsersBinding by viewBinding()
     private val usersAdapter = UsersAdapter(delegate = this)
-
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

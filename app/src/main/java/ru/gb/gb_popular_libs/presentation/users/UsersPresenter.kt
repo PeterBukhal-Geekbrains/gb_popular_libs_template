@@ -1,18 +1,20 @@
 package ru.gb.gb_popular_libs.presentation.users
 
-import com.github.terrakok.cicerone.Router
+import dagger.assisted.AssistedInject
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 import moxy.MvpPresenter
 import ru.gb.gb_popular_libs.data.user.GitHubUserRepository
 import ru.gb.gb_popular_libs.presentation.GitHubUserViewModel
 import ru.gb.gb_popular_libs.presentation.GitHubUserViewModel.Mapper
+import ru.gb.gb_popular_libs.presentation.navigation.CustomRouter
 import ru.gb.gb_popular_libs.presentation.user.UserScreen
 import ru.gb.gb_popular_libs.scheduler.Schedulers
 
-class UsersPresenter(
+class UsersPresenter
+@AssistedInject constructor(
     private val userRepository: GitHubUserRepository,
-    private val router: Router,
+    private val router: CustomRouter,
     private val schedulers: Schedulers
 ): MvpPresenter<UsersView>() {
 

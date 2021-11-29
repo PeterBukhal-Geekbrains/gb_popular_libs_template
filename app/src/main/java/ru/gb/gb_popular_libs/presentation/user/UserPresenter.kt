@@ -1,5 +1,7 @@
 package ru.gb.gb_popular_libs.presentation.user
 
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
@@ -8,8 +10,9 @@ import ru.gb.gb_popular_libs.data.user.GitHubUserRepository
 import ru.gb.gb_popular_libs.presentation.GitHubUserViewModel.Mapper
 import ru.gb.gb_popular_libs.scheduler.Schedulers
 
-class UserPresenter(
-    private val userLogin: String,
+class UserPresenter
+@AssistedInject constructor(
+    @Assisted("login") private val userLogin1: String,
     private val userRepository: GitHubUserRepository,
     private val schedulers: Schedulers
 ) : MvpPresenter<UserView>() {
@@ -20,12 +23,12 @@ class UserPresenter(
         disposables +=
             Observable.merge(
                 userRepository
-                    .getUser(userLogin)
+                    .getUser(userLogin1)
                     .map(Mapper::map)
                     .observeOn(schedulers.main())
                     .doOnNext(viewState::showUser),
                 userRepository
-                    .getUserRepositories(userLogin)
+                    .getUserRepositories(userLogin1)
                     .observeOn(schedulers.main())
                     .doOnNext(viewState::showRepositories)
             )

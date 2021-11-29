@@ -33,15 +33,11 @@ class UserFragment: AbsFragment(view_user_details), UserView {
     }
 
     @Inject
-    lateinit var gitHubUserRepository: GitHubUserRepository
+    lateinit var presenterFactory: UserPresenterAssistedFactory
 
     @Suppress("unused")
     private val presenter: UserPresenter by moxyPresenter {
-        UserPresenter(
-            userLogin = userLogin,
-            userRepository = gitHubUserRepository,
-            schedulers = schedulers
-        )
+        presenterFactory.create(userLogin)
     }
 
     private val viewBinding: ViewUserDetailsBinding by viewBinding()
